@@ -1,22 +1,19 @@
 const { MongoClient } = require("mongodb");
 const Db = process.env.ATLAS_URI;
-const client = new MongoClient(Db, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
+const client = new MongoClient(Db);
  
 var _db;
  
 module.exports = {
   connectToServer: function (callback) {
-    client.connect(function (err, db) {
-      if (db)
-      {
-        _db = db.db("aepic");
-        console.log("Successfully connected to aepic database."); 
-      }
-      return callback(err);
-         });
+    try {
+      client.connect();
+      client.db("admin").command({ ping: 1 });
+      console.log("Successfully connected to aepic database."); 
+      _db = client.db("aepic");
+    } finally {
+      client.close();
+    }
   },
  
   getDb: function () {
