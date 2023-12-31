@@ -18,7 +18,7 @@ recordRoutes.route("/post").get(function (req, res) {
 // Get a single post by id
 recordRoutes.route("/post/:id").get(function (req, res) {
   let db_connect = dbo.getDb();
-  let myquery = { _id: ObjectId(req.params.id) };
+  let myquery = { _id: new ObjectId(req.params.id) };
   
   db_connect.collection("post").findOne(myquery)
     .then(result => {
@@ -47,6 +47,32 @@ recordRoutes.route("/post/add").post(function (req, response) {
     .catch(err => {
       console.error(err);
       response.status(500).json({ error: "Internal Server Error" });
+    });
+});
+
+// Get a list of all the users.
+recordRoutes.route("/user").get(function (req, res) {
+  let db_connect = dbo.getDb();
+  db_connect.collection("user").find({}).toArray()
+    .then(result => res.json(result))
+    .catch(err => {
+      console.error(err);
+      res.status(500).json({ error: "Internal Server Error" });
+    });
+});
+
+// Get a single user by id
+recordRoutes.route("/user/:id").get(function (req, res) {
+  let db_connect = dbo.getDb();
+  let myquery = { _id: new ObjectId(req.params.id) };
+  
+  db_connect.collection("user").findOne(myquery)
+    .then(result => {
+      res.json(result);
+    })
+    .catch(err => {
+      console.error(err);
+      res.status(500).json({ error: "Internal Server Error" });
     });
 });
 
