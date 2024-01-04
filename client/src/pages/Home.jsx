@@ -7,39 +7,54 @@ import Post from "../components/post";
 
 const Home = () => {
   const navigate = useNavigate();
-  const [cookies, removeCookie] = useCookies([]);
+  const [cookies, setCookie, removeCookie] = useCookies([]);
   const [username, setUsername] = useState("");
+  const [userId, setUserId] = useState("");
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
   useEffect(() => {
     const verifyCookie = async () => {
-      if (!cookies.token) {
-        navigate("/login");
-      }
-      const { data } = await axios.post(
-        "http://localhost:5000",
-        {},
-        { withCredentials: true }
-      );
-      const { status, user } = data;
-      setUsername(user);
-      return status
-        ? toast(`Hello ${user}`, {
+      if (cookies.token) {
+        const { data } = await axios.get("http://localhost:5000/current-user", {
+          withCredentials: true,
+        });
+        const { status, username, userId } = data;
+        if (status) {
+          setUsername(username);
+          setUserId(userId);
+          setIsLoggedIn(true);
+          toast(`Hello ${username}`, {
             position: "top-right",
-          })
-        : (removeCookie("token"), navigate("/login"));
+          });
+        } else {
+          removeCookie("token");
+        }
+      }
     };
     verifyCookie();
   }, [cookies, navigate, removeCookie]);
+
   const Logout = () => {
     removeCookie("token");
+    setIsLoggedIn(false);
     navigate("/login");
   };
+
   return (
     <>
       <div className="home_page">
-        <h4>
-          Welcome <span>{username}</span>
-        </h4>
-        <button onClick={Logout}>Logout</button>
+        {isLoggedIn ? (
+          <>
+            <h4>
+              Welcome <span>{username}</span>
+            </h4>
+            <button onClick={Logout}>Logout</button>
+          </>
+        ) : (
+          <h4>
+            Welcome, guest! <a href="/login">Login</a> to be able to like, post, and comment!
+          </h4>
+        )}
       </div>
       <Post />
       <ToastContainer />
