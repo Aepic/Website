@@ -51,9 +51,8 @@ const Signup = () => {
     }
     setInputValue({
       ...inputValue,
-      email: "",
-      password: "",
       username: "",
+      password: "",
     });
   };
 

@@ -22,5 +22,5 @@ module.exports.userVerification = (req, res, next) => {
 }
 
 module.exports.getLoggedInUser = (req, res, next) => {
-  return res.json({ status: true, username: req.user.username, id: req.user._id })
+  return res.json({ status: true, username: req.user.username, userId: req.user._id })
 }

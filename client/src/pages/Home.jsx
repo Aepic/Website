@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
-import Post from "../components/post";
+import Post from "../components/Post";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -40,6 +40,10 @@ const Home = () => {
     navigate("/login");
   };
 
+  const CreatePost = () => {
+    navigate("/create-post");
+  };
+
   return (
     <>
       <div className="home_page">
@@ -48,6 +52,7 @@ const Home = () => {
             <h4>
               Welcome <span>{username}</span>
             </h4>
+            <button onClick={CreatePost}>Create Post</button>
             <button onClick={Logout}>Logout</button>
           </>
         ) : (

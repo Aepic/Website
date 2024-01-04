@@ -52,7 +52,7 @@ const Login = () => {
     }
     setInputValue({
       ...inputValue,
-      email: "",
+      username: "",
       password: "",
     });
   };
