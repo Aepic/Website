@@ -11,4 +11,4 @@ A social media website where all posts are in the form of AI generated images.
 - Liking posts
 - Commenting on posts
 - More user functionality (profile pictures, bios, followers, etc.)
-- Having the posts be AI generated images
+- Having the posts be AI generated images (from a Hugging Face model running on a cloud server)
